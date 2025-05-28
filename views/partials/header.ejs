@@ -1,0 +1,35 @@
+<header class="site-header">
+  <div class="container">
+    <div class="logo">
+      <a href="/">
+        <i class="fas fa-headset"></i>
+        <span>Dern-Support</span>
+      </a>
+    </div>
+    
+    <nav class="main-nav">
+      <button class="mobile-menu-toggle" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      
+      <ul class="nav-links">
+        <li><a href="/">Home</a></li>
+        <li><a href="/#services">Services</a></li>
+        <li><a href="/knowledge/search">Knowledge Base</a></li>
+        <% if (currentUser) { %>
+          <% if (isAdmin) { %>
+            <li><a href="/admin/dashboard">Admin Dashboard</a></li>
+          <% } else { %>
+            <li><a href="/customer/dashboard">Dashboard</a></li>
+          <% } %>
+          <li><a href="/logout" class="btn btn-sm btn-outline-primary">Logout</a></li>
+        <% } else { %>
+          <li><a href="/login">Login</a></li>
+          <li><a href="/signup" class="btn btn-sm btn-primary">Sign Up</a></li>
+        <% } %>
+      </ul>
+    </nav>
+  </div>
+</header>

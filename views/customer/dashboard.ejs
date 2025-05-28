@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Dern-Support</title>
+  <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+  <%- include('../partials/header') %>
+  
+  <main class="dashboard section">
+    <div class="container">
+      <div class="dashboard-header">
+        <h1>Welcome, <%= user.firstName %>!</h1>
+        <div class="dashboard-actions">
+          <a href="/customer/support/new" class="btn btn-primary">New Support Request</a>
+          <a href="/customer/profile" class="btn btn-outline-primary">My Profile</a>
+        </div>
+      </div>
+      
+      <div class="dashboard-grid">
+        <section class="dashboard-section">
+          <div class="section-header">
+            <h2>Recent Support Requests</h2>
+            <a href="/customer/support" class="view-all">View All</a>
+          </div>
+          
+          <div class="support-requests-list">
+            <% if (supportRequests.length === 0) { %>
+              <div class="empty-state">
+                <p>You don't have any support requests yet.</p>
+                <a href="/customer/support/new" class="btn btn-primary btn-sm">Create Your First Request</a>
+              </div>
+            <% } else { %>
+              <% supportRequests.forEach(request => { %>
+                <div class="support-request-card">
+                  <div class="request-status <%= request.status %>">
+                    <%= request.status.charAt(0).toUpperCase() + request.status.slice(1) %>
+                  </div>
+                  <h3><a href="/customer/support/<%= request._id %>"><%= request.title %></a></h3>
+                  <div class="request-meta">
+                    <span class="device-type"><%= request.deviceType %></span>
+                    <span class="urgency <%= request.urgency %>"><%= request.urgency %></span>
+                  </div>
+                  <div class="request-date">
+                    <%= new Date(request.createdAt).toLocaleDateString() %>
+                  </div>
+                </div>
+              <% }) %>
+            <% } %>
+          </div>
+        </section>
+        
+        <section class="dashboard-section">
+          <div class="section-header">
+            <h2>Upcoming Appointments</h2>
+          </div>
+          
+          <div class="appointments-list">
+            <% if (upcomingAppointments.length === 0) { %>
+              <div class="empty-state">
+                <p>You don't have any upcoming appointments.</p>
+              </div>
+            <% } else { %>
+              <% upcomingAppointments.forEach(appointment => { %>
+                <div class="appointment-card">
+                  <div class="appointment-date">
+                    <%= new Date(appointment.appointmentDate).toLocaleDateString() %>
+                    <span class="appointment-time">
+                      <%= new Date(appointment.appointmentDate).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'}) %>
+                    </span>
+                  </div>
+                  <h3><a href="/customer/support/<%= appointment._id %>"><%= appointment.title %></a></h3>
+                  <div class="appointment-meta">
+                    <span class="device-type"><%= appointment.deviceType %></span>
+                    <span class="status <%= appointment.status %>"><%= appointment.status %></span>
+                  </div>
+                </div>
+              <% }) %>
+            <% } %>
+          </div>
+        </section>
+        
+        <section class="dashboard-section knowledge-base-section">
+          <div class="section-header">
+            <h2>Popular Knowledge Base Articles</h2>
+            <a href="/knowledge/search" class="view-all">Browse All</a>
+          </div>
+          
+          <div class="knowledge-articles-list">
+            <% if (popularArticles.length === 0) { %>
+              <div class="empty-state">
+                <p>No knowledge base articles available.</p>
+              </div>
+            <% } else { %>
+              <% popularArticles.forEach(article => { %>
+                <div class="article-card">
+                  <h3><a href="/knowledge/article/<%= article._id %>"><%= article.title %></a></h3>
+                  <div class="article-meta">
+                    <span class="category"><%= article.category %></span>
+                    <span class="views"><%= article.viewCount %> views</span>
+                  </div>
+                </div>
+              <% }) %>
+            <% } %>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+  
+  <%- include('../partials/footer') %>
+  
+  <script src="/js/main.js"></script>
+</body>
+</html>
